@@ -15,9 +15,9 @@ const bookNames = [
     "1 యోహాను", "2 యోహాను", "3 యోహాను", "యూదా", "ప్రకటన"
 ];
 
-let bibleData = [];
+let bibleData = {};
 
-// 1. JSON డేటా లోడ్ చేయడం
+// 1. డేటా లోడ్ చేయడం
 async function loadBibleData() {
     try {
         const response = await fetch('bible.json');
@@ -33,7 +33,14 @@ async function loadBibleData() {
     }
 }
 
-// 2. హోమ్ పేజీ లాజిక్ 
+// JSON స్ట్రక్చర్ నుండి పుస్తకాలను సురక్షితంగా బయటకు తీసే ఫంక్షన్
+function getBooksArray() {
+    if (bibleData.Book) return bibleData.Book;
+    if (Array.isArray(bibleData)) return bibleData;
+    return Object.values(bibleData)[0] || [];
+}
+
+// 2. హోమ్ పేజీ లాజిక్
 function renderHomePage() {
     const booksList = document.getElementById('books-list');
     booksList.innerHTML = '';
@@ -41,11 +48,11 @@ function renderHomePage() {
     let totalChapters = 0;
     let readChapters = 0;
     const progressData = getProgressData();
+    const booksArray = getBooksArray(); // మీ JSON లోని "Book" డేటా
 
-    // మీ JSON డేటాలోని ప్రతి పుస్తకానికి లూప్
-    bibleData.forEach((bookObj, bookIndex) => {
-        const bookName = bookNames[bookIndex]; 
-        const chapters = bookObj.Chapter;
+    booksArray.forEach((bookObj, bookIndex) => {
+        const bookName = bookNames[bookIndex] || `Book ${bookIndex + 1}`; 
+        const chapters = bookObj.Chapter || [];
 
         totalChapters += chapters.length;
         if (progressData[bookName]) {
@@ -57,15 +64,12 @@ function renderHomePage() {
         bookDiv.style.flexDirection = 'column';
         bookDiv.style.alignItems = 'flex-start';
         
-        // పుస్తకం పేరు డిజైన్
         let chaptersHtml = `<div style="font-size: 18px; color: #1a252f; margin-bottom: 10px;">${bookName}</div>`;
         chaptersHtml += `<div style="display: flex; flex-wrap: wrap; gap: 5px;">`;
         
-        // అధ్యాయాల లింక్స్ క్రియేట్ చేయడం
         chapters.forEach((chObj, chapterIndex) => {
             const displayChapterNum = chapterIndex + 1;
             const isRead = isChapterRead(bookName, displayChapterNum) ? '✅' : '';
-            // reader.html కి వెళ్లేటప్పుడు నంబర్స్ పాస్ చేస్తున్నాం
             chaptersHtml += `<a href="reader.html?bookId=${bookIndex}&chapterId=${chapterIndex}" class="chapter-link">${displayChapterNum} ${isRead}</a>`;
         });
         
@@ -74,19 +78,19 @@ function renderHomePage() {
         booksList.appendChild(bookDiv);
     });
 
-    // ఓవరాల్ ప్రోగ్రెస్ బార్ అప్‌డేట్ చేయడం
     const percentage = totalChapters === 0 ? 0 : Math.round((readChapters / totalChapters) * 100);
     const progressBar = document.getElementById('overall-progress');
     progressBar.style.width = percentage + '%';
     progressBar.innerText = percentage + '%';
 }
 
-// 3. రీడర్ పేజీ లాజిక్ (వచనాలు చూపించడం)
+// 3. రీడర్ పేజీ లాజిక్
 function renderReaderPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const bookIndex = parseInt(urlParams.get('bookId'));
     const chapterIndex = parseInt(urlParams.get('chapterId'));
 
+    const booksArray = getBooksArray();
     const bookName = bookNames[bookIndex];
     const displayChapterNum = chapterIndex + 1;
 
@@ -94,17 +98,18 @@ function renderReaderPage() {
     
     const contentDiv = document.getElementById('bible-content');
     
-    // మీ JSON స్ట్రక్చర్ ప్రకారం వచనాలు తీసుకురావడం
-    const verses = bibleData[bookIndex].Chapter[chapterIndex].Verse;
+    // వచనాలు సురక్షితంగా లోడ్ చేయడం
+    const bookObj = booksArray[bookIndex];
+    const chapters = bookObj.Chapter || [];
+    const chapterObj = chapters[chapterIndex] || {};
+    const verses = chapterObj.Verse || [];
     
     let html = '';
     verses.forEach((vObj, vIndex) => {
-        const verseNum = vIndex + 1; 
-        html += `<div class="verse"><span class="verse-num">${verseNum}.</span> ${vObj.Verse}</div>`;
+        html += `<div class="verse"><span class="verse-num">${vIndex + 1}.</span> ${vObj.Verse}</div>`;
     });
     contentDiv.innerHTML = html;
 
-    // "చదవడం పూర్తయింది" బటన్ స్టేటస్
     const btn = document.getElementById('mark-read-btn');
     if (isChapterRead(bookName, displayChapterNum)) {
         btn.innerText = "✓ చదివారు (Completed)";
