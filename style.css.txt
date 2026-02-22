@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+header {
+    background-color: #1a252f;
+    color: #f1c40f;
+    padding: 15px 20px;
+    text-align: center;
+}
+header p { margin: 0; font-size: 14px; color: #fff; }
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.progress-bar-container {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    height: 25px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    background-color: #27ae60;
+    height: 100%;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+    font-size: 14px;
+    transition: width 0.5s ease;
+}
+
+.books-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.book-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+.chapter-link {
+    display: inline-block;
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.reading-area {
+    font-size: 18px; line-height: 1.8;
+    background: white; padding: 20px;
+    border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.verse { margin-bottom: 10px; }
+.verse-num { font-weight: bold; color: #e74c3c; margin-right: 5px; }
+
+#mark-read-btn {
+    background-color: #27ae60; color: white;
+    border: none; padding: 15px 20px;
+    font-size: 16px; border-radius: 8px;
+    cursor: pointer; width: 100%; margin-top: 20px;
+}
+#mark-read-btn.completed { background-color: #95a5a6; cursor: not-allowed; }
+.back-btn { color: white; text-decoration: none; position: absolute; left: 20px; top: 25px;}

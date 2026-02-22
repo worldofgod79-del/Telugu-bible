@@ -1,0 +1,23 @@
+// బ్రౌజర్ స్టోరేజ్ నుండి ప్రోగ్రెస్ డేటా తెచ్చుకోవడం
+function getProgressData() {
+    return JSON.parse(localStorage.getItem('bibleProgress')) || {};
+}
+
+// ఒక చాప్టర్ చదివినట్లు మార్క్ చేయడం
+function markAsRead(bookName, chapterNum) {
+    let data = getProgressData();
+    if (!data[bookName]) data[bookName] = [];
+    
+    if (!data[bookName].includes(chapterNum)) {
+        data[bookName].push(chapterNum);
+        localStorage.setItem('bibleProgress', JSON.stringify(data));
+        return true; // కొత్తగా మార్క్ అయితే true
+    }
+    return false; // ముందే మార్క్ అయి ఉంటే false
+}
+
+// చాప్టర్ ముందే చదివారా లేదా అని చెక్ చేయడం
+function isChapterRead(bookName, chapterNum) {
+    let data = getProgressData();
+    return data[bookName] && data[bookName].includes(chapterNum);
+}

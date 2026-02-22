@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading - WORLD OF GOD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-btn">⬅ Home</a>
+        <h2 id="book-title">లోడ్ అవుతోంది...</h2>
+    </header>
+
+    <main>
+        <div id="bible-content" class="reading-area">
+            </div>
+
+        <div class="action-area">
+            <button id="mark-read-btn">✓ ఈ అధ్యాయం చదవడం పూర్తయింది</button>
+        </div>
+    </main>
+
+    <script src="progressTracker.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

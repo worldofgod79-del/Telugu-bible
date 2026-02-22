@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORLD OF GOD - Bible App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>WORLD OF GOD</h1>
+        <p>Bible Study App</p>
+    </header>
+
+    <main>
+        <div class="progress-section">
+            <h3>మీ ఓవరాల్ ప్రోగ్రెస్</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="overall-progress" style="width: 0%;">0%</div>
+            </div>
+        </div>
+
+        <h3>పుస్తకాలు</h3>
+        <div id="books-list" class="books-grid">
+            </div>
+    </main>
+
+    <script src="progressTracker.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
